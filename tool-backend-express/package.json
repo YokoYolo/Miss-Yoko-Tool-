@@ -7,6 +7,8 @@
     "dev": "DEBUG=frontend:* nodemon ./bin/www"
   },
   "dependencies": {
+    "axios": "^0.18.0",
+    "bcrypt": "^3.0.6",
     "bcryptjs": "^2.4.3",
     "body-parser": "~1.18.2",
     "cloudinary": "^1.14.0",

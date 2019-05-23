@@ -1,13 +1,32 @@
 import React from 'react';
+import { Link, } from 'react-router-dom';
 
 
-class Login extends React.Component {
 
-    render () {
-        return(
-console.log('yay')
-)
+class Home extends React.Component {
+
+    componentDidMount() {
+        console.log('home did mount')
+    }
+    componentWillReceiveProps(props, nextProps) {
+        console.log('props,nextProps', props, nextProps)
+    }
+    render() {
+        return (
+            <div>
+                    {console.log('hello')} 
+
+                    Please
+          <Link exact to='/login' activeClassName="selected">  Login </Link>
+          or     
+          <Link exact to='/signup' activeClassName="selected">  Sign Up </Link>
+                    {/* {this.state.name ? <Login {this.state.name} /> : null  }  */}
+                      </div>
+        )
+    }
 }
-}
 
-export default Login;
+
+// Need to add Context for User!
+
+export default Home;

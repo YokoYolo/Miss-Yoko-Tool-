@@ -15,7 +15,6 @@ const cors          = require('cors');
 
 
 
-
 passportSetup(passport);
 //mongodb://localhost/miss-yoko-tool-project-express
 mongoose.Promise = Promise;
@@ -69,7 +68,7 @@ app.locals.title = 'MissYoko Tool';
 
 app.use (cors({
   credentials:true,
-  origin: ['http://localhost:4200']
+  origin: ['http://localhost:5000']
 }))
 
 const index = require('./routes/index');

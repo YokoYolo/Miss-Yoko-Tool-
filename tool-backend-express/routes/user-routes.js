@@ -5,6 +5,13 @@ const passport    = require ('passport')
 const bcrypt      = require ('bcryptjs')
 const uploadCloud = require("../config/cloudinary")
 
+
+//USER INFO
+
+
+
+
+
 //SIGN UP
 userRoutes.post('/signup',uploadCloud.single('theImage'), (req, res, next) => {
  
@@ -32,8 +39,8 @@ userRoutes.post('/signup',uploadCloud.single('theImage'), (req, res, next) => {
         const theUser = new User({
             username:username,
             password: hashPass,
-            // name:      req.body.name,
-            // lastname:  req.body.lastname,
+            name:      req.body.name,
+            lastname:  req.body.lastname,
             // email:     req.body.email,
             // image:     req.file.url
         }); //closed
