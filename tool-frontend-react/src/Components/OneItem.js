@@ -5,11 +5,14 @@ class OneItem extends React.Component {
     state = { item: {}}
 
     componentDidMount () {
-        axios.get(`'http://localhost:5000/inventory/${this.props.match.params.id}`)
+        axios.get('http://localhost:5000/inventory/'+this.props.match.params.id)
             .then (thisItem=> {
-                this.setState({beer: thisItem.data})
+                this.setState({item: thisItem.data})
             }) 
     }
+
+
+
     
     render (){
 
@@ -17,11 +20,12 @@ class OneItem extends React.Component {
             <Fragment >
                 <div className="container">
                     <div className="oneitem">
-                    
+                            {console.log()}
                                 <h1>{this.state.item.title}</h1>
                                 <h3>{this.state.item.quantity}</h3>
                                 <h3>{this.state.item.description}</h3>
                                 <h3>{this.state.item.shortdescription}</h3>
+                               
                     </div>
                 </div>
             </Fragment>

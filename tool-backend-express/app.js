@@ -66,10 +66,13 @@ app.use(passport.session());
 // default value for title local
 app.locals.title = 'MissYoko Tool';
 
-app.use (cors({
-  credentials:true,
-  origin: ['http://localhost:5000']
-}))
+app.use(cors({
+  origin: function(origin, callback){
+    return callback(null, true);
+  },
+  optionsSuccessStatus: 200,
+  credentials: true
+}));
 
 const index = require('./routes/index');
 app.use('/', index);

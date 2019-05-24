@@ -8,7 +8,7 @@ const User        = require ('../models/user');
 
 //PROJECT PAGE
 projectRoutes.get('/projects', (req, res, next) => {
-    Project.find()
+    Project.find({status:'open'})
     .then((projects)=>{
         res.json(projects);
     })
@@ -28,15 +28,15 @@ projectRoutes.get('/projects/:id', (req, res, Item) => {
     })
 });
 
-//CREATE PROJECT
-projectRoutes.post('/projects/create',uploadCloud.single('theImage'),  isLoggedIn,(req, res, next)=>{
+//CREATE PROJECT isLoggedIn, owner:               req.User._id,
+projectRoutes.post('/projects/create',uploadCloud.single('theImage'),  (req, res, next)=>{
 
     Project.create({
         name:                req.body.name,
         // image:               req.file.url,
         description:         req.body.description,
         shortdescription:    req.body.shortdescription,
-        owner:               req.User._id,
+        
 
       
     })
@@ -48,8 +48,8 @@ projectRoutes.post('/projects/create',uploadCloud.single('theImage'),  isLoggedI
     })
 })
 
-//UPDATE PROJECT
-projectRoutes.post('/projects/:id/update', uploadCloud.single('theImage'), isLoggedIn, (req, res, next)=>{
+//UPDATE PROJECT  isLoggedIn,
+projectRoutes.post('/projects/:id/update', uploadCloud.single('theImage'),  (req, res, next)=>{
     Project.findByIdAndUpdate(req.params.id, {
         name:                req.body.name,
         // image:               req.file.url,       
@@ -66,8 +66,8 @@ projectRoutes.post('/projects/:id/update', uploadCloud.single('theImage'), isLog
 })
 
 
-//DELETE PROJECT
-projectRoutes.post('/projects/:id/delete', isLoggedIn, (req, res, next)=>{
+//DELETE PROJECT isLoggedIn, 
+projectRoutes.post('/projects/:id/delete', (req, res, next)=>{
     Project.findByIdAndRemove(req.params.id)
     .then(()=>{
         res.json({message:'deleted.'})

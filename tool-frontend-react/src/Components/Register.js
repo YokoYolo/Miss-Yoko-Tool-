@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
 import { Link, } from 'react-router-dom';
+axios.defaults.withCredentials = true;
 
 
 class Register extends Component {
@@ -15,15 +16,15 @@ class Register extends Component {
       name:'',
       lastname:'',
       email:'',
-      password:''
+      password:'',
+      error: '',
     }
   }
 
 
   handleClick(event){
-    var apiBaseUrl = "http://localhost:5000";
+   
     // console.log("values",this.state.name,this.state.lastname,this.state.email,this.state.password);
-  
     var self = this;
     var payload={
     "name": this.state.name,
@@ -31,9 +32,11 @@ class Register extends Component {
     "email":this.state.email,
     "password":this.state.password
     }
-    axios.post(apiBaseUrl+'/signup', payload)
+    axios.post('http://localhost:5000/signup', payload, {withCredentials:true})
    .then(function (response) {
      console.log(response);
+    this.setState({error:response.data.message})
+
      if(response.data.code === 200){
       //  console.log("registration successfull");
        var loginscreen=[];
@@ -46,6 +49,8 @@ class Register extends Component {
         });
      }
    })
+
+   
    .catch(function (error) {
      console.log(error);
    });
@@ -90,6 +95,9 @@ class Register extends Component {
 
          <h3> If you have an account please 
           <Link exact to='/login' activeClassName="selected">  Login </Link></h3>
+      
+       
+
       </div>
     );
   }

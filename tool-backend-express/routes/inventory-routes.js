@@ -104,9 +104,10 @@ itemRoutes.post('/inventory/:id/delete', (req, res, next)=>{
         res.json({message:'deleted.'})
     })
     .catch((err)=>{
-        res.json(err);
+        res.json(err=>(message(err)));
     })
 })
+// have to do req.body instead of req.params
 
 
 

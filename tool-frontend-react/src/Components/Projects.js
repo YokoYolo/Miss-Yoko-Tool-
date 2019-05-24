@@ -12,32 +12,48 @@ class Projects extends React.Component {
   async componentDidMount(){
 
     let allProjects= await axios.get('http://localhost:5000/projects')
+    console.log(allProjects.data)
         this.setState({
             allProjects: allProjects.data,
             loading:false
         })
     }
 
+   
+    deleteProject= (id, i) => {
+  
+      axios.post ('http://localhost:5000/projects/'+id+'/delete').then(responseFromServer=>{
+        
+        let allProjects= [...this.state.allProjects]
+        allProjects.splice(i,1)
+        this.setState({allProjects: allProjects})
+        console.log('http://localhost:5000/inventory/'+id+'/delete', i)
+
+      })
+      }
+
+
 
   showProjects = () => {
-    return this.state.allProjects.map(eachProject=>{ 
+    return this.state.allProjects.map((eachProject, i)=>{ 
       
       return (
 
-    <div className="projectlist">
-        <Link exact to={`/projects/${eachProject._id}`} activeClassName="selected">
+    <div class="projectlist">
         
         <table>
           <tr> 
             <td> 
-                <tr>{eachProject.name}</tr>
-                <tr>{eachProject.description}</tr>
-                <tr>{eachProject.shortdescription}</tr>
+            <Link exact to={`/projects/${eachProject._id}`} activeclass="selected"> <tr>{eachProject.name}</tr>   </Link>
+                {/* <tr>{eachProject.description}</tr>
+                <tr>{eachProject.shortdescription}</tr> */}
+                <td><button style={{backgroundColor:this.state.color}} onClick = { () => this.deleteProject(eachProject._id, i)} >Delete</button></td>
+
             </td>
          </tr>
          </table>
 
-         </Link>
+      
     </div>
   
       )
@@ -46,7 +62,7 @@ class Projects extends React.Component {
 
   render() {
     return (
-        <div className="container">
+        <div class="container">
             {this.showProjects()}
         </div>
     );

@@ -5,6 +5,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
+    "browser-history": "^1.0.1",
     "cors": "^2.8.5",
     "express-session": "^1.16.1",
     "material-ui": "^0.20.2",

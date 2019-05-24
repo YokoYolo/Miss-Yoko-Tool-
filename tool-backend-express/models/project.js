@@ -10,8 +10,7 @@ const projectSchema = new Schema({
   image: String,
   description: String,
   shortdescription: String,
-  owner:{type: Schema.Types.ObjectId, ref: 'User'},
-  // status: {type: String, enum: ["open", "close"], default:"open"},
+  status: {type: String, enum: ["open", "close"], default:"open"},
   inventory:  [ {itemId:  {type: Schema.Types.ObjectId, ref: 'Item'}, usedQuant: Number}
               ], 
             },
