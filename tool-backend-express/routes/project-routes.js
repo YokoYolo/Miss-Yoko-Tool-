@@ -28,8 +28,8 @@ projectRoutes.get('/projects/:id', (req, res, Item) => {
     })
 });
 
-//CREATE PROJECT isLoggedIn, owner:               req.User._id,
-projectRoutes.post('/projects/create',uploadCloud.single('theImage'),  (req, res, next)=>{
+//CREATE PROJECT isLoggedIn, owner:               req.User._id, uploadCloud.single('theImage'), 
+projectRoutes.post('/projects/create', (req, res, next)=>{
 
     Project.create({
         name:                req.body.name,

@@ -79,7 +79,7 @@ class Inventory extends React.Component {
     let query = e.target.value
     clearTimeout(time)
     time = setTimeout(()=>{
-        axios.get(`http://localhost:000/inventory/${query}`)
+        axios.get(`http://localhost:5000/inventory/${query}`)
         .then(result=>{
             this.setState({
                 allItems:result.data
@@ -87,6 +87,17 @@ class Inventory extends React.Component {
         })
     },1000) 
   }
+
+
+  filterMovies = (e) => {
+    let filteredMovies = this.state.movies.filter((film)=>{
+      return film.title.includes(e.target.value)
+    })
+    this.setState({
+      filteredMovies
+    })
+  }
+
 
   render() {
     

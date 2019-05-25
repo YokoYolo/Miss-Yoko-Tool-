@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import axios from 'axios';
 
 class OneItem extends React.Component {
+    
     state = { item: {}}
 
     componentDidMount () {

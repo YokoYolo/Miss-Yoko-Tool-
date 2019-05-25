@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
-import {browserHistory} from 'browser-history';
+
+// import {browserHistory} from 'browser-history';
 
 
 class OneProject extends React.Component {
@@ -18,6 +19,9 @@ class OneProject extends React.Component {
             }) 
     }
     
+
+   
+
 
 
       renderRedirect = () => {
@@ -54,7 +58,8 @@ class OneProject extends React.Component {
                                 <h1>{this.state.project.name}</h1>
                                 <h3>{this.state.project.description}</h3>
                                 <h3>{this.state.project.shortdescription}</h3>
-                                <td><button style={{backgroundColor:this.state.color}} onClick = { () => this.deleteOneProject(this.state.project._id)}>Delete</button></td>
+                                {/* <td><button style={{backgroundColor:this.state.color}} 
+                                onClick = { () => this.deleteOneProject(this.state.project._id)}>Delete</button></td> */}
   
                     </div>
                 </div>
@@ -64,3 +69,23 @@ class OneProject extends React.Component {
 }
 
 export default OneProject;
+
+
+ // static getDerivedStateFromProps(nextProps, prevState) {
+    //     if (nextProps.match.params.project !== prevState.currentProductId){
+    //        const currentProductId = nextProps.match.params.project
+    //        const result = Inventory.filter(obj => {
+     
+    //          return obj.id === currentProductId;
+     
+    //        })
+    //       return {
+     
+    //          product: result[0],
+    //          projectId: currentProductId,
+    //          result
+     
+    //        }
+    //    }
+    //    return null;
+    //  }
