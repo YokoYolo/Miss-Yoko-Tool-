@@ -44,7 +44,7 @@ class Projects extends React.Component {
         <table>
           <tr> 
             <td> 
-            <Link exact to={`/projects/${eachProject._id}`} activeclass="selected"> <tr>{eachProject.name}</tr>   </Link>
+            <Link exact to={`/projects/project/${eachProject._id}`} activeclass="selected"> <tr>{eachProject.name}</tr>   </Link>
                 {/* <tr>{eachProject.description}</tr>
                 <tr>{eachProject.shortdescription}</tr> */}
                 <td><button style={{backgroundColor:this.state.color}} onClick = { () => this.deleteProject(eachProject._id, i)} >Delete</button></td>
@@ -63,6 +63,7 @@ class Projects extends React.Component {
   render() {
     return (
         <div class="container">
+             <div><Link to='/projects/addproject' activeClassName="selected">  Create Project </Link></div>
             {this.showProjects()}
         </div>
     );

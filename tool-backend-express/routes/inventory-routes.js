@@ -32,12 +32,12 @@ itemRoutes.get('/inventory/:id', (req, res, next) => {
 });
 
 
-//CREATE ITEM
-itemRoutes.post('/inventory/add',uploadCloud.single('theImage'), (req, res)=>{
-    console.log('logged in: ', req.user)
-    console.log('body: ', req.body)
-    nPrice = Number(req.body.price).toFixed(2);
-    tPrice = ((req.body.price)*(req.body.quantity)).toFixed(2);
+//CREATE ITEM uploadCloud.single('theImage'), 
+itemRoutes.post('/inventory/additem',(req, res)=>{
+    // console.log('logged in: ', req.user)
+    // console.log('body: ', req.body)
+    // nPrice = Number(req.body.price).toFixed(2);
+    // tPrice = ((req.body.price)*(req.body.quantity)).toFixed(2);
     Item.create({
         title:                req.body.title,
         // type:                 req.body.type,

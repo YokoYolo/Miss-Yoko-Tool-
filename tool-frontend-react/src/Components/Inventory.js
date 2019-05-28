@@ -1,7 +1,7 @@
 import React from 'react';
 import axios from 'axios';
-import { NavLink, } from 'react-router-dom';
-let time;
+import { NavLink, Link } from 'react-router-dom';
+// let time;
 
 
 class Inventory extends React.Component {
@@ -33,7 +33,20 @@ class Inventory extends React.Component {
     // }
 
    
-    deleteItem= (id, j) => {
+    sortByName = (e) =>{
+    
+
+      let arr = [...this.state.allItems].sort(function(a, b){
+        if(a.name < b.name) { return -1; }
+        if(a.name > b.name) { return 1; }
+        return 0;
+      })
+      this.setState({allitems: arr})
+    }
+  
+
+
+    deleteItem = (id, j) => {
   
       axios.post ('http://localhost:5000/inventory/'+id+'/delete').then(responseFromServer=>{
         
@@ -58,7 +71,7 @@ class Inventory extends React.Component {
             <table>
             <tbody key="tbody">
                  <tr>
-                    <td key="{eachItem._id}"><NavLink exact to={`/inventory/${eachItem._id}`}> {eachItem.title}</NavLink></td>
+                    <td key="{eachItem._id}"><NavLink exact to={`/inventory/item/${eachItem._id}`}> {eachItem.title}</NavLink></td>
                     {/* <tr>{eachItem.description}</tr>
                     <tr>{eachItem.quantity}</tr>
                     <tr>{eachItem.shortdescription}</tr> */}
@@ -75,37 +88,40 @@ class Inventory extends React.Component {
   }
 
 
-  searchInventory = (e) => {
-    let query = e.target.value
-    clearTimeout(time)
-    time = setTimeout(()=>{
-        axios.get(`http://localhost:5000/inventory/${query}`)
-        .then(result=>{
-            this.setState({
-                allItems:result.data
-            })
-        })
-    },1000) 
-  }
+  // searchInventory = (e) => {
+  //   let query = e.target.value
+  //   clearTimeout(time)
+  //   time = setTimeout(()=>{
+  //       axios.get(`http://localhost:5000/inventory/${query}`)
+  //       .then(result=>{
+  //           this.setState({
+  //               allItems:result.data
+  //           })
+  //       })
+  //   },1000) 
+  // }
 
 
-  filterMovies = (e) => {
-    let filteredMovies = this.state.movies.filter((film)=>{
-      return film.title.includes(e.target.value)
-    })
-    this.setState({
-      filteredMovies
-    })
-  }
+  // filterMovies = (e) => {
+  //   let filteredMovies = this.state.movies.filter((film)=>{
+  //     return film.title.includes(e.target.value)
+  //   })
+  //   this.setState({
+  //     filteredMovies
+  //   })
+  // }
 
 
   render() {
     
     return (
         <div className="container">
-           <input type="text" onChange={this.searchInventory} placeholder="search....."/>
-            {this.showInventory()}
+            <div><Link to='/inventory/additem' activeClassName="selected">  add item </Link></div>
+            {/* <input type="text" onChange={this.searchInventory} placeholder="search....."/> */}
+            <div><button style={{backgroundColor:this.state.color}} onClick={this.sortByName}>Sort By Name</button></div>
+            <div>{this.showInventory()}</div>
             
+           
         </div>
     );
   }

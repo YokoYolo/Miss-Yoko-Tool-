@@ -52,6 +52,7 @@ app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
 
 
 
+
 app.use(session({
   secret: 'angular auth passport secret shh',
   resave: true,
@@ -68,11 +69,13 @@ app.locals.title = 'MissYoko Tool';
 
 app.use(cors({
   origin: function(origin, callback){
+    console.log('hihihih',origin)
     return callback(null, true);
   },
   optionsSuccessStatus: 200,
   credentials: true
 }));
+
 
 const index = require('./routes/index');
 app.use('/', index);

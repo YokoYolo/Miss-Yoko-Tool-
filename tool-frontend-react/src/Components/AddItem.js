@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-// import axios from 'axios'
-// axios.defaults.withCredentials = true; 
+import axios from 'axios'
+axios.defaults.withCredentials = true; 
 
- class AddItem extends Component {
+ export default class AddItem extends Component {
   state = {
       title:'',
       quantity: Number(''),
@@ -10,44 +10,41 @@ import React, { Component } from 'react';
       shortdescription: '',
     }
   
-    componentDidMount() {
-      
-        console.log('component did mount')
-    }
+    handleInputChange = (event) => {
+        this.setState({
+          [event.target.name]: event.target.value
+        })
+      }
+    
+      handleClick = (e) => {
+        e.preventDefault()
+        console.log(this.state)
+        let item = this.state; 
+       
+        axios.post('http://localhost:5000/inventory/additem', item).then(result => {
+            console.log('SUCCESS!')
+            this.props.history.push("/inventory") // Redirect to the home page
+          })
+        }
+    
 
-    // handleInputChange = (event) => {
-    //     this.setState({
-    //       [event.target.state]: event.target.value
-    //     })
-    //   }
-
-    //   saveProject = (e) => {
-    //       e.preventDefault()
-    //       console.log(e.target.elements)
-    //         let project = this.state
-    //       console.log(this.state.name)
-    //       axios.post('http://localhost:5000/projects/create', project.name, project.description, project.shortdescription)
-    //          .then(responseFromTHeServer=>{
-    //              console.log(responseFromTHeServer)
-    //       }).catch(err=>console.error(err))
-    //   }
-  
-    // ={this.saveItem}
   
       render() {
           return (
               <div>
                   <div>Add new Item</div>
-                  <form onSubmit>
-                      <input type="text" name="title"></input>
-                      <input type="text" name="description"></input>
-                      <input type="text" name="shortdescription"></input>
-                      <input type="number" name="quantity"></input>
-                      <button type="submit">Save</button>
+                  <form>
+                        <div> Name: <input type="text" name="title" value={this.state.title} onChange={this.handleInputChange}/></div>
+                        <div>Description: <input type="text" name="description"value={this.state.description} onChange={this.handleInputChange}/></div>
+                        <div>Shortdescription: <input type="text" name="shortdescription"value={this.state.shortdescription} onChange={this.handleInputChange}/></div>
+                        <div> Quantitu: <input type="number" name="quantity" value={this.state.quantity} onChange={this.handleInputChange}/></div>
+                        <button onClick={(e) => this.handleClick(e)}>Save</button>
                   </form>
-              </div>
-          );
-      }
+                {this.state.message && <div className="info">
+                    {this.state.message}</div>
+                }
+                </div>
+        )
   }
-  
-  export default AddItem;
+
+  }

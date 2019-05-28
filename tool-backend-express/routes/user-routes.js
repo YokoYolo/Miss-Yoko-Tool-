@@ -5,25 +5,16 @@ const passport    = require ('passport')
 const bcrypt      = require ('bcryptjs')
 const uploadCloud = require("../config/cloudinary")
 
-
-//USER INFO
-
-
-
-
-
-//SIGN UP,uploadCloud.single('theImage'),
-userRoutes.post('/signup',(req, res, next) => {
+//SIGN UP
+userRoutes.post('/signup',uploadCloud.single('theImage'), (req, res, next) => {
  
-    console.log(req.body,3453435435)
-
-    const email = req.body.email;
+   
+    const username = req.body.username;
     const password = req.body.password;
     
- 
-    if (!email || !password) {
-        console.log()
-        res.json({ message: 'Provide email and password', err: true });
+
+    if (!username || !password) {
+        res.status(400).json({ message: 'Provide username and password' });
         return;
     } //closed
     if (password.length <= 7) {
@@ -31,18 +22,18 @@ userRoutes.post('/signup',(req, res, next) => {
         return;
     } //closed
     
-    User.findOne({ email }, '_id', (err, foundUser) => {
+    User.findOne({ username }, '_id', (err, foundUser) => {
         if (foundUser) {
-            res.status(400).json({ message: 'The email already exists' });
+            res.status(400).json({ message: 'The username already exists' });
             return;
         } //closed
         const salt     = bcrypt.genSaltSync(10);
         const hashPass = bcrypt.hashSync(password, salt);
         const theUser = new User({
-            email:     req.body.email,
-            password:  hashPass,
-            name:      req.body.name,
-            lastname:  req.body.lastname,
+            username:username,
+            password: hashPass,
+            // name:      req.body.name,
+            // lastname:  req.body.lastname,
             // email:     req.body.email,
             // image:     req.file.url
         }); //closed
@@ -74,11 +65,12 @@ userRoutes.post('/user/update',uploadCloud.single('theImage'), (req, res, next)=
     const password = req.body.password;
     const hashPass = bcrypt.hashSync(password, salt);
     User.findByIdAndUpdate(userId, {
+        username:  req.body.username,
         password:  hashPass,
-        name:      req.body.name,
-        lastname:  req.body.lastname,
-        email:     req.body.email,
-        image:     req.file.url
+        // name:      req.body.name,
+        // lastname:  req.body.lastname,
+        // email:     req.body.email,
+        // image:     req.file.url
     })
     .then((response)=>{
         console.log (response)

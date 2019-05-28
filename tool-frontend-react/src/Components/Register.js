@@ -6,16 +6,16 @@ import TextField from 'material-ui/TextField';
 import axios from 'axios';
 import Login from './Login';
 import { Link, } from 'react-router-dom';
-axios.defaults.withCredentials = true;
+// axios.defaults.withCredentials = true;
 
 
 class Register extends Component {
   constructor(props){
     super(props);
     this.state={
-      name:'',
-      lastname:'',
-      email:'',
+      username:'',
+      // lastname:'',
+      // username:'',
       password:'',
       error: '',
     }
@@ -24,12 +24,12 @@ class Register extends Component {
 
   handleClick(event){
    
-    // console.log("values",this.state.name,this.state.lastname,this.state.email,this.state.password);
+    // console.log("values",this.state.name,this.state.lastname,this.state.username,this.state.password);
     var self = this;
     var payload={
-    "name": this.state.name,
-    "lastname":this.state.lastname,
-    "email":this.state.email,
+    // "name": this.state.name,
+    // "lastname":this.state.lastname,
+    "username":this.state.username,
     "password":this.state.password
     }
     axios.post('http://localhost:5000/signup', payload, {withCredentials:true})
@@ -63,7 +63,7 @@ class Register extends Component {
         <MuiThemeProvider>
           <div>
           <h1>Register</h1>
-           <TextField
+           {/* <TextField
              hintText="Enter your First Name"
              floatingLabelText="First Name"
              onChange = {(event,newValue) => this.setState({name:newValue})}
@@ -74,12 +74,12 @@ class Register extends Component {
              floatingLabelText="Last Name"
              onChange = {(event,newValue) => this.setState({lastname:newValue})}
              />
-           <br/>
+           <br/> */}
            <TextField
-             hintText="Enter your Email"
-             type="email"
-             floatingLabelText="Email"
-             onChange = {(event,newValue) => this.setState({email:newValue})}
+             hintText="Enter your username"
+             type="username"
+             floatingLabelText="username"
+             onChange = {(event,newValue) => this.setState({username:newValue})}
              />
            <br/>
            <TextField
