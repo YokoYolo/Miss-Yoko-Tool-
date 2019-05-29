@@ -6,7 +6,7 @@ class OneItem extends React.Component {
     state = { 
         item: {},
         projectstoadd:[],
-        quant: 0,
+        quant: Number(""),
     }
     
     componentDidMount () {
@@ -14,8 +14,7 @@ class OneItem extends React.Component {
         .then (list=> {
             this.setState({projectstoadd: list.data})
             
-        }) 
-        
+        })   
         axios.get('http://localhost:5000/inventory/'+this.props.match.params.id)
         .then (thisItem=> {
                 this.setState({item: thisItem.data})
@@ -23,12 +22,12 @@ class OneItem extends React.Component {
             }) 
     }
 
-    saveQuant = (num) => {
-        console.log(num)
-        this.setState({
-        quant: Number(num)
-        })
-      }
+    // saveQuant = (num) => {
+    //     console.log(num)
+    //     this.setState({
+    //     quant: num
+    //     })
+    //   }
     
     showProject = () => {
         
@@ -37,8 +36,8 @@ class OneItem extends React.Component {
           return (
         <div class="projectlist">
             <li> 
-                <button onClick={this.addToProject(eachProject.id)}>
-                    {eachProject.name}
+                <button onClick={() => this.addToProject(eachProject._id)}>
+                    {eachProject.name} 
                  </button>
             </li>
         </div>
@@ -55,15 +54,20 @@ class OneItem extends React.Component {
         console.log(projId)
         console.log(this.props.match.params.id)
         console.log(usedQ)
+        console.log(this.state.item)
 
-        axios.post('http://localhost:5000/inventory/addtoproject', {itemId: itemId, projId: projId, usedQ:usedQ})
+        axios.post('http://localhost:5000/inventory/addtoproject', {itemId: itemId, projId: projId, usedQ:usedQ, newitem : this.state.item})
         .then (
-            // this.props.history.push('/inventory/item/'+{itemId})
+            // this.props.history.push('/inventory')
         )
     
     }
 
-    
+    handleChange(event) {
+        this.setState({quant: event.target.value})
+    }
+
+
     render (){
 
         return (
@@ -76,7 +80,7 @@ class OneItem extends React.Component {
                                 <h3>{this.state.item.description}</h3>
                                 <h3>{this.state.item.shortdescription}</h3>
                                
-                                {console.log(this.state.item.id)}
+                        
                                 {console.log(this.state.quant)}
 
                     </div>
@@ -84,10 +88,14 @@ class OneItem extends React.Component {
 
                 <div>You can add item to a project:
                     
-                    <input type="number"  name="number" placeholder="1" onChange={this.saveQuant} max={this.state.item.quantity} min='1' />
+                <input type="number"  name="quant" 
+                    value={this.state.quant} 
+                    onChange={this.handleChange.bind(this)} 
+                    max={this.state.item.quantity} min='1' />
+
                     <div>{this.showProject()}</div>
                     
-                </div>
+                </div> 
                 </Fragment>
             )
     }

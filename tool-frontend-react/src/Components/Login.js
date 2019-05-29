@@ -38,7 +38,7 @@ handleClick(e) {
   axios.post('http://localhost:5000/login', info, {withCredentials:true})
     .then(result => {
       console.log('SUCCESS!')
-      this.props.setUser(result.data)
+      // this.props.setUser(result.data)
       this.props.history.push("/") // Redirect to the home page
     })
     .catch(err => this.setState({ message: err.toString() }))

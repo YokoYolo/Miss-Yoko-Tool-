@@ -8,6 +8,7 @@ const itemSchema = new Schema({
   title: String,
   price: {type: Currency},
   quantity: Number,
+  usedquantity: Number,
   totalPrice: {type: Currency, min: 1, max: 2000 },
   image: String,
   type: {type: String, enum: ["Tools", "Gemstones", "Bead Seeds", "Thread"], description: "can only be one of the enum values and is required"},
@@ -31,3 +32,6 @@ itemSchema.totalPrice = Currency(itemSchema.quantity*itemSchema.price);
 
 const Item = mongoose.model("Item", itemSchema);
 module.exports = Item;
+
+
+// {Item:itemSchema}

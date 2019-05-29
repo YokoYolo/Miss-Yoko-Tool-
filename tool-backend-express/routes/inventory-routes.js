@@ -111,38 +111,50 @@ itemRoutes.post('/inventory/:id/delete', (req, res, next)=>{
 
 
 
+
+
 //ADD ITEM TO PROJECT
 
 itemRoutes.post('/inventory/addtoproject', (req, res, next)=>{ 
 
     const data = {
         projId: req.body.projId,
-        itemId: req.body.itemId   
+        itemId: req.body.itemId,
+        receivedItem: req.body.newitem,
+        usedQ: req.body.usedQ
     }
-    const usedQ = req.body.usedQ;
     const updatedItem = false;
-    console.log(data.projId)
+   
+    // console.log(333, data.projId)
+    // console.log(333, data.itemId)
+    // console.log(2222, data.receivedItem)
+
+    
     Project.findById(data.projId)
     .then(foundProj => {  
-        if (foundProj.inventory.length > 0 ) 
-        
-        
-        
+        // console.log(343543543,)
+        if (foundProj.inventory.length > 0 )
         {     // go through Inventory list and updates info
+           
             foundProj.inventory.forEach(oneObj=>{ 
                 
+                // console.log(99999,oneObj._id, data.itemId)
                 
-
-
-                if (oneObj.itemId.equals(data.itemId)){
-                    oneObj.usedQuant = Number(Number(oneObj.usedQuant) + Number(usedQ));
+                if (oneObj._id == data.itemId){
+                    console.log(111111122323232323, data.usedQ )
+                    console.log(555555555, oneObj.quantity)
+                    console.log(666666, Number(Number(oneObj.quantity)+ Number(data.usedQ)))
+                   
+                    oneObj.quantity = Number(Number(oneObj.quantity)+ Number(data.usedQ));
+                    console.log(1919919191919191919, oneObj.quantity)
                     foundProj.save()
                     .then(()=>{
+                        console.log(1010101010101010, foundProj)
                             Item.findById(data.itemId)
                             .then(foundItem => {
-                                foundItem.quantity = Number(Number(foundItem.quantity) - Number(usedQ))
-                                
-                                if (Number(Number(foundItem.quantity) - Number(usedQ)) === 0){
+                                foundItem.quantity = Number(Number(foundItem.quantity) - Number(data.usedQ))
+                                console.log(99999999999, Number(Number(foundItem.quantity) - Number(data.usedQ)))
+                                if (Number(Number(foundItem.quantity)-Number(data.usedQ)) === 0){
                                 foundItem.status = "used";
                                 }
                             
@@ -160,15 +172,18 @@ itemRoutes.post('/inventory/addtoproject', (req, res, next)=>{
                     .catch((err)=>{res.json({ message: 'err3' });
                     }) 
                 } else {
-                    if (updatedItem = false){
-                foundProj.inventory.push({itemId: data.itemId, usedQuant: usedQ});
+                if (updatedItem = false){
+                let pushedIt = data.receivedItem;
+                console.log(8888888888888, data.receivedItem, 999999999999, foundProj.inventory)
+                foundProj.inventory.push(pushedIt);
+                pushedIt.quantity = data.usedQ;
                 foundProj.save()
                 .then(() => {
                     Item.findById(data.itemId)
                     .then(foundItem => {
-                        foundItem.quantity = Number(Number(foundItem.quantity) - Number(usedQ))
+                        foundItem.quantity = Number(Number(foundItem.quantity)-Number(data.usedQ))
                         
-                        if (Number(foundItem.quantity) === 0){
+                        if (Number(foundItem.quantity) >= 0){
                             foundItem.status = "used";
                         }
                         foundItem.save()
@@ -179,17 +194,19 @@ itemRoutes.post('/inventory/addtoproject', (req, res, next)=>{
                     .catch((err)=>{res.json({ message: 'err when finding quant of item' }); })
                 }) 
                 .catch((err)=>{res.json({ message: 'err saving prohject' });})   
-            }
-            }
+         
+                }}
             })  
 
         } else {   // pushes first added item to empty Project Inventory Array
-            foundProj.inventory.push({itemId: data.itemId, usedQuant: usedQ});
+            let pushedI = data.receivedItem
+            pushedI.quantity = data.usedQ;
+            foundProj.inventory.push(pushedI)
             foundProj.save()
                 .then(() => {
                     Item.findById(data.itemId)
                     .then(foundItem => {
-                        foundItem.quantity = Number(Number(foundItem.quantity) - Number(usedQ))
+                        foundItem.quantity = Number(Number(foundItem.quantity)-Number(data.usedQ))
                         
                         if (Number(foundItem.quantity) === 0){
                             foundItem.status = "used";
